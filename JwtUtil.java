@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;  
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,8 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil {
 	
-	 @Value("${jwt.secret}")
-         private String SECRET;
+	 private String SECRET = "secretKey123";
 
 	    public String generateToken(String username) {
 	        return Jwts.builder()
