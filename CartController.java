@@ -36,9 +36,17 @@ public class CartController {
                       .getAuthentication().getName();
 
 	        User user = userRepo.findByUsername(username);
+			 if (user == null) {
+            throw new RuntimeException("User not found");
+        }
 
-	        Product product = productService.getById(productId); 
-
+	        Product product = productService.getById(productId);
+			 if (product == null) {
+            throw new RuntimeException("Product not found");
+        }
+          if (qty <= 0) {
+            throw new RuntimeException("Quantity must be greater than 0");
+        }
 	        return cartService.addToCart(user, product, qty);
 	    }
 }
