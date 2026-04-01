@@ -8,7 +8,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil {
 	
-	 private String SECRET = "mysecret";
+	 @Value("${jwt.secret}")
+         private String SECRET;
 
 	    public String generateToken(String username) {
 	        return Jwts.builder()
