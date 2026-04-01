@@ -15,11 +15,8 @@ public class AuthService {
 	
 	 @Autowired
 	    private UserRepository repo;
-	       @Autowired
-           private JwtUtil jwtUtil;
 
-	      @Autowired
-	    private BCryptPasswordEncoder encoder; 
+	    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	    public String register(RegisterRequest req) {
 
@@ -38,8 +35,7 @@ public class AuthService {
 	        User user = repo.findByUsername(req.getUsername());
 
 	        if (user != null && encoder.matches(req.getPassword(), user.getPassword())) {
-	            return jwtUtil.generateToken(user.getUsername());
-	            
+	            return "Login Successful";
 	        }
 
 	        return "Invalid Credentials";
