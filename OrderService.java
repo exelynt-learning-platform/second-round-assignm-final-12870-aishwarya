@@ -18,14 +18,23 @@ public class OrderService {
 
 	        Order order = new Order();
 	        order.setUser(user);
+			List<OrderItem> orderItems = new ArrayList<>();
 
-	        double total = cart.getItems()
-	                .stream()
-	                .mapToDouble(i -> i.getProduct().getPrice() * i.getQuantity())
-	                .sum();
+	        double total = 0;
+			for (CartItem cartItem : cart.getItems()) {
+        OrderItem item = new OrderItem();
+        item.setProduct(cartItem.getProduct());
+        item.setQuantity(cartItem.getQuantity());
+        item.setOrder(order);
 
-	        order.setTotalPrice(total);
-	        order.setStatus("CREATED");
+        orderItems.add(item);
+
+        total += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+    }
+
+    order.setItems(orderItems);   
+    order.setTotalPrice(total);
+    order.setStatus("CREATED");
 
 	        return repo.save(order);
 }
