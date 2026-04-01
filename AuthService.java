@@ -18,7 +18,8 @@ public class AuthService {
 	       @Autowired
            private JwtUtil jwtUtil;
 
-	    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	      @Autowired
+	    private BCryptPasswordEncoder encoder 
 
 	    public String register(RegisterRequest req) {
 
