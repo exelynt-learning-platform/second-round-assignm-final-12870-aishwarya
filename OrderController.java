@@ -28,10 +28,13 @@ public class OrderController {
 	    @PostMapping("/create")
 	    public Order createOrder
 	    {
-			String username = SecurityContextHolder
-            .getContext()
-            .getAuthentication()
-            .getName();
+			if (SecurityContextHolder.getContext().getAuthentication() == null) {
+    throw new RuntimeException("Unauthorized");
+}
+
+String username = SecurityContextHolder.getContext()
+        .getAuthentication()
+        .getName();
 	        User user = userRepo.findByUsername(username);
 
 	        if (user == null) 
