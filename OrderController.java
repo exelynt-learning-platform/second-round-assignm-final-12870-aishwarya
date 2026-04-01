@@ -32,14 +32,15 @@ public class OrderController {
             .getContext()
             .getAuthentication()
             .getName();
-	        User user = cartService.getCartByUsername(username);
+	        User user = userRepo.findByUsername(username);
 
-	        if (cart == null) 
+	        if (user == null) 
 	        {  
 	            throw new RuntimeException("User not found");
 	        }
            Cart cart = cartService.getCartByUser(user);
-			if (cart == null) {
+			
+			if (cart == null || cart.getItems().isEmpty()) {
         throw new RuntimeException("Cart is empty");
     }
 	        return orderService.createOrder(user, cart);
