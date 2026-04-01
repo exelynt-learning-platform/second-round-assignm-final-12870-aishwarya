@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Product;
@@ -29,29 +28,15 @@ public class CartController {
 	    private UserRepository userRepo;   
 
 	    @PostMapping("/add")
-	    public Cart addToCart(@RequestParam Long productId,
+	    public Cart addToCart(@RequestParam Long userId,
+	                          @RequestParam Long productId,
 	                          @RequestParam int qty) 
-	    {
-			if (SecurityContextHolder.getContext().getAuthentication() == null) {
-    throw new RuntimeException("Unauthorized");
-}
+	    {   
 
-String username = SecurityContextHolder.getContext()
-        .getAuthentication()
-        .getName();
+	        User user = userRepo.findById(userId).orElseThrow();
 
-	        User user = userRepo.findByUsername(username);
-			 if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+	        Product product = productService.getById(productId); 
 
-	        Product product = productService.getById(productId);
-			 if (product == null) {
-            throw new RuntimeException("Product not found");
-        }
-          if (qty <= 0) {
-            throw new RuntimeException("Quantity must be greater than 0");
-        }
 	        return cartService.addToCart(user, product, qty);
 	    }
 }
